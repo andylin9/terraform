@@ -299,6 +299,12 @@ func (n *nodeExpandPlannableResource) knownModuleSubgraph(ctx EvalContext, addr 
 		}),
 
 		DynamicTransformer(func(graph *Graph) error {
+			// Ephemeral resources don't need to be accounted for in this transform,
+			// since they are not in the state.
+			if addr.Resource.Mode == addrs.EphemeralResourceMode {
+				return nil
+			}
+
 			// We'll add nodes for any orphaned resources.
 			rs := state.Resource(addr)
 			if rs == nil {
