@@ -74,12 +74,7 @@ func (t *ForcedCBDTransformer) Transform(g *Graph) error {
 // hasCBDDescendent returns true if any descendent (node that depends on this)
 // has CBD set.
 func (t *ForcedCBDTransformer) hasCBDDescendent(g *Graph, v dag.Vertex) bool {
-	s, _ := g.Descendents(v)
-	if s == nil {
-		return true
-	}
-
-	for _, ov := range s {
+	for _, ov := range g.Descendents(v) {
 		dn, ok := ov.(GraphNodeDestroyerCBD)
 		if !ok {
 			continue
