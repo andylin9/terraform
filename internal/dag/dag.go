@@ -53,7 +53,7 @@ func (g *AcyclicGraph) Ancestors(vs ...Vertex) (Set, error) {
 
 // Returns a Set that includes every Vertex yielded by walking up from the
 // provided starting Vertex v.
-func (g *AcyclicGraph) Descendents(vs ...Vertex) (Set, error) {
+func (g *AcyclicGraph) Descendents(vs ...Vertex) Set {
 	s := make(Set)
 	memoFunc := func(v Vertex, d int) error {
 		s.Add(v)
@@ -67,11 +67,8 @@ func (g *AcyclicGraph) Descendents(vs ...Vertex) (Set, error) {
 		}
 	}
 
-	if err := g.ReverseDepthFirstWalk(start, memoFunc); err != nil {
-		return nil, err
-	}
-
-	return s, nil
+	g.ReverseDepthFirstWalk(start, memoFunc)
+	return s
 }
 
 // Root returns the root of the DAG, or an error.

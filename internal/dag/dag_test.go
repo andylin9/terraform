@@ -272,10 +272,7 @@ func TestAcyclicGraphDescendents(t *testing.T) {
 	g.Connect(BasicEdge(3, 4))
 	g.Connect(BasicEdge(4, 5))
 
-	actual, err := g.Descendents(2)
-	if err != nil {
-		t.Fatalf("err: %#v", err)
-	}
+	actual := g.Descendents(2)
 
 	expected := []Vertex{0, 1}
 
